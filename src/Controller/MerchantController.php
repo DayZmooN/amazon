@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Merchant;
-use App\Form\Merchant1Type;
+use App\Form\MerchantType;
 use App\Repository\MerchantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,7 +26,7 @@ class MerchantController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $merchant = new Merchant();
-        $form = $this->createForm(Merchant1Type::class, $merchant);
+        $form = $this->createForm(MerchantType::class, $merchant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -53,7 +53,7 @@ class MerchantController extends AbstractController
     #[Route('/{id}/edit', name: 'app_merchant_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Merchant $merchant, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(Merchant1Type::class, $merchant);
+        $form = $this->createForm(MerchantType::class, $merchant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -71,7 +71,7 @@ class MerchantController extends AbstractController
     #[Route('/{id}', name: 'app_merchant_delete', methods: ['POST'])]
     public function delete(Request $request, Merchant $merchant, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$merchant->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $merchant->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($merchant);
             $entityManager->flush();
         }
