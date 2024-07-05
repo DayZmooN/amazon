@@ -7,6 +7,7 @@ use App\Repository\OrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
+
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
@@ -36,9 +37,10 @@ class Order
     #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'order_article')]
     private Collection $articles;
 
-    #[ORM\ManyToOne(inversedBy: 'orders')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?user $user_order = null;
+    #[ORM\ManyToOne(inversedBy: 'order_user')]
+    private ?User $user = null;
+
+
 
     public function __construct()
     {
@@ -115,14 +117,14 @@ class Order
         return $this;
     }
 
-    public function getUserOrder(): ?user
+    public function getUser(): ?User
     {
-        return $this->user_order;
+        return $this->user;
     }
 
-    public function setUserOrder(?user $user_order): static
+    public function setUser(?User $user): static
     {
-        $this->user_order = $user_order;
+        $this->user = $user;
 
         return $this;
     }

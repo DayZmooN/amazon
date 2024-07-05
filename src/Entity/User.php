@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -12,7 +11,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-#[ApiResource]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -35,19 +33,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\OneToOne(mappedBy: 'user_merchant', cascade: ['persist', 'remove'])]
-    private ?Merchant $merchant = null;
-
     /**
-     * @var Collection<int, Order>
+     * @var Collection<int, order>
      */
-    #[ORM\OneToMany(targetEntity: Order::class, mappedBy: 'user_order')]
-    private Collection $orders;
+    #[ORM\OneToMany(targetEntity: order::class, mappedBy: 'user')]
+    private Collection $order_user;
 
     public function __construct()
     {
-        $this->orders = new ArrayCollection();
+        $this->order_user = new ArrayCollection();
     }
+
+
+
+
+
 
     public function getId(): ?int
     {
@@ -124,47 +124,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getMerchant(): ?Merchant
-    {
-        return $this->merchant;
-    }
-
-    public function setMerchant(Merchant $merchant): static
-    {
-        // set the owning side of the relation if necessary
-        if ($merchant->getUserMerchant() !== $this) {
-            $merchant->setUserMerchant($this);
-        }
-
-        $this->merchant = $merchant;
-
-        return $this;
-    }
-
     /**
-     * @return Collection<int, Order>
+     * @return Collection<int, order>
      */
-    public function getOrders(): Collection
+    public function getOrderUser(): Collection
     {
-        return $this->orders;
+        return $this->order_user;
     }
 
-    public function addOrder(Order $order): static
+    public function addOrderUser(order $orderUser): static
     {
-        if (!$this->orders->contains($order)) {
-            $this->orders->add($order);
-            $order->setUserOrder($this);
+        if (!$this->order_user->contains($orderUser)) {
+            $this->order_user->add($orderUser);
+            $orderUser->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeOrder(Order $order): static
+    public function removeOrderUser(order $orderUser): static
     {
-        if ($this->orders->removeElement($order)) {
+        if ($this->order_user->removeElement($orderUser)) {
             // set the owning side to null (unless already changed)
-            if ($order->getUserOrder() === $this) {
-                $order->setUserOrder(null);
+            if ($orderUser->getUser() === $this) {
+                $orderUser->setUser(null);
             }
         }
 
