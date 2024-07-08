@@ -2,31 +2,24 @@
 
 namespace App\Form;
 
-use App\Entity\Article;
-use App\Entity\Order;
-use App\Entity\User;
+use App\Entity\Invoice;
+use App\Entity\order;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class OrderType extends AbstractType
+class InvoiceType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('status')
-            ->add('totalPrice')
-            ->add('date', null, [
+            ->add('createdAt', null, [
                 'widget' => 'single_text',
             ])
-            ->add('articles', EntityType::class, [
-                'class' => Article::class,
-                'choice_label' => 'id',
-                'multiple' => true,
-            ])
-            ->add('user', EntityType::class, [
-                'class' => User::class,
+            ->add('amount')
+            ->add('order_invoice', EntityType::class, [
+                'class' => order::class,
                 'choice_label' => 'id',
             ])
         ;
@@ -35,7 +28,7 @@ class OrderType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Order::class,
+            'data_class' => Invoice::class,
         ]);
     }
 }

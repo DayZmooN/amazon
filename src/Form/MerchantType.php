@@ -23,8 +23,7 @@ class MerchantType extends AbstractType
             ->add('user_merchant', EntityType::class, [
                 'class' => user::class,
                 'choice_label' => 'id',
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

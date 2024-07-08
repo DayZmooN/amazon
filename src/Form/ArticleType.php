@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Article;
+use App\Entity\category;
 use App\Entity\Merchant;
 use App\Entity\order;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -32,7 +33,10 @@ class ArticleType extends AbstractType
                 'class' => Merchant::class,
                 'choice_label' => 'id',
             ])
-        ;
+            ->add('category_article', EntityType::class, [
+                'class' => category::class,
+                'choice_label' => 'id',
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

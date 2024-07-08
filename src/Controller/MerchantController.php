@@ -71,7 +71,7 @@ class MerchantController extends AbstractController
     #[Route('/{id}', name: 'app_merchant_delete', methods: ['POST'])]
     public function delete(Request $request, Merchant $merchant, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $merchant->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$merchant->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($merchant);
             $entityManager->flush();
         }
