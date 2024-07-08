@@ -24,6 +24,15 @@ security:
             pattern:   ^/api
             stateless: true
             jwt: ~
+            entry_point: jwt
+            form_login:
+                login_path: app_login
+                check_path: app_login
+                enable_csrf: true
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
 
     access_control:
         - { path: ^/api/login, roles: PUBLIC_ACCESS }
