@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
+use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,11 +15,38 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/article')]
 class ArticleController extends AbstractController
 {
+    // #[Route('/', name: 'app_article_index', methods: ['GET'])]
+    // public function index(ArticleRepository $articleRepository): Response
+    // {
+    //     return $this->render('article/index.html.twig', [
+    //         'articles' => $articleRepository->findAll(),
+    //     ]);
+    // }
+
     #[Route('/', name: 'app_article_index', methods: ['GET'])]
-    public function index(ArticleRepository $articleRepository): Response
+    public function index(Request $request, ArticleRepository $articleRepository, CategoryRepository $categoryRepository): Response
     {
+        $search = $request->query->get('search');
+        $category = $request->query->getInt('category');
+
+        $queryBuilder = $articleRepository->createQueryBuilder('a');
+
+        if ($search) {
+            $queryBuilder->andWhere('a.name LIKE :search')
+                ->setParameter('search', '%' . $search . '%');
+        }
+
+        if ($category) {
+            $queryBuilder->andWhere('a.category_article = :category')
+                ->setParameter('category', $category);
+        }
+
+        $articles = $queryBuilder->getQuery()->getResult();
+        $categories = $categoryRepository->findAll();
+
         return $this->render('article/index.html.twig', [
-            'articles' => $articleRepository->findAll(),
+            'articles' => $articles,
+            'categories' => $categories,
         ]);
     }
 
@@ -71,7 +99,7 @@ class ArticleController extends AbstractController
     #[Route('/{id}', name: 'app_article_delete', methods: ['POST'])]
     public function delete(Request $request, Article $article, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $article->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($article);
             $entityManager->flush();
         }
