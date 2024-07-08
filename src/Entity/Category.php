@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\CategoryRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
@@ -18,8 +20,18 @@ class Category
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToOne(inversedBy: 'category')]
-    private ?Article $article = null;
+    /**
+     * @var Collection<int, Article>
+     */
+    #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'category_article')]
+    private Collection $articles;
+
+    public function __construct()
+    {
+        $this->articles = new ArrayCollection();
+    }
+
+
 
     public function getId(): ?int
     {
@@ -38,14 +50,32 @@ class Category
         return $this;
     }
 
-    public function getArticle(): ?Article
+    /**
+     * @return Collection<int, Article>
+     */
+    public function getArticles(): Collection
     {
-        return $this->article;
+        return $this->articles;
     }
 
-    public function setArticle(?Article $article): static
+    public function addArticle(Article $article): static
     {
-        $this->article = $article;
+        if (!$this->articles->contains($article)) {
+            $this->articles->add($article);
+            $article->setCategoryArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticle(Article $article): static
+    {
+        if ($this->articles->removeElement($article)) {
+            // set the owning side to null (unless already changed)
+            if ($article->getCategoryArticle() === $this) {
+                $article->setCategoryArticle(null);
+            }
+        }
 
         return $this;
     }

@@ -33,11 +33,7 @@ class Article
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
 
-    /**
-     * @var Collection<int, Category>
-     */
-    #[ORM\OneToMany(targetEntity: Category::class, mappedBy: 'article')]
-    private Collection $category;
+
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
@@ -52,9 +48,11 @@ class Article
     #[ORM\JoinColumn(nullable: false)]
     private ?Merchant $merchant = null;
 
+    #[ORM\ManyToOne(inversedBy: 'articles')]
+    private ?category $category_article = null;
+
     public function __construct()
     {
-        $this->category = new ArrayCollection();
         $this->order_article = new ArrayCollection();
     }
 
@@ -125,35 +123,6 @@ class Article
         return $this;
     }
 
-    /**
-     * @return Collection<int, Category>
-     */
-    public function getCategory(): Collection
-    {
-        return $this->category;
-    }
-
-    public function addCategory(Category $category): static
-    {
-        if (!$this->category->contains($category)) {
-            $this->category->add($category);
-            $category->setArticle($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCategory(Category $category): static
-    {
-        if ($this->category->removeElement($category)) {
-            // set the owning side to null (unless already changed)
-            if ($category->getArticle() === $this) {
-                $category->setArticle(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getDescription(): ?string
     {
@@ -199,6 +168,18 @@ class Article
     public function setMerchant(?Merchant $merchant): static
     {
         $this->merchant = $merchant;
+
+        return $this;
+    }
+
+    public function getCategoryArticle(): ?category
+    {
+        return $this->category_article;
+    }
+
+    public function setCategoryArticle(?category $category_article): static
+    {
+        $this->category_article = $category_article;
 
         return $this;
     }
