@@ -122,12 +122,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getMerchant(): ?merchant
+    public function getMerchant(): ?Merchant
     {
         return $this->merchant;
     }
 
-    public function setMerchant(?merchant $merchant): static
+    public function setMerchant(?Merchant $merchant): static
     {
         $this->merchant = $merchant;
 
@@ -135,7 +135,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, order>
+     * @return Collection<int, Order>
      */
     public function getOrderUser(): Collection
     {

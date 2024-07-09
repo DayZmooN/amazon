@@ -25,17 +25,17 @@ class ArticleType extends AbstractType
             ])
             ->add('description')
             ->add('order_article', EntityType::class, [
-                'class' => order::class,
+                'class' => Order::class,
                 'choice_label' => 'id',
                 'multiple' => true,
             ])
             ->add('merchant', EntityType::class, [
                 'class' => Merchant::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
             ])
             ->add('category_article', EntityType::class, [
-                'class' => category::class,
-                'choice_label' => 'id',
+                'class' => Category::class,
+                'choice_label' => 'name',
             ]);
     }
 
