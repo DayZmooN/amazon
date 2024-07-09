@@ -21,7 +21,7 @@ class MerchantType extends AbstractType
                 'widget' => 'single_text',
             ])
             ->add('user_merchant', EntityType::class, [
-                'class' => user::class,
+                'class' => User::class,
                 'choice_label' => 'id',
             ]);
     }

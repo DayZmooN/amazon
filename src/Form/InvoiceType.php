@@ -19,7 +19,7 @@ class InvoiceType extends AbstractType
             ])
             ->add('amount')
             ->add('order_invoice', EntityType::class, [
-                'class' => order::class,
+                'class' => Order::class,
                 'choice_label' => 'id',
             ])
         ;
