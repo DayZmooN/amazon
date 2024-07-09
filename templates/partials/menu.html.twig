@@ -11,25 +11,31 @@
 						<a class="nav-link" href="{{ path('home') }}">Home</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="{{ path('app_article_index') }}">
-							Article
-						</a>
+						<a class="nav-link" href="{{ path('app_article_index') }}">Article</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="{{ path('app_category_index') }}">Category</a>
 					</li>
 					<li class="nav-item">
-					<a class="nav-link" href="{{ path('app_merchant_index') }}"> Merchant</a>
+						<a class="nav-link" href="{{ path('app_merchant_index') }}">Merchant</a>
 					</li>
 				</ul>
 				<ul class="navbar-nav ms-auto">
-					<li class="nav-item">
-						<a class="nav-link" href="">Inscription</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{{path('app_login')}}">Login</a>
-					</li>
-
+					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+						<li class="nav-item">
+							<a class="nav-link" href="#">{{ app.user.email }}</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
+						</li>
+					{% else %}
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('app_register') }}">Inscription</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('app_login') }}">Login</a>
+						</li>
+					{% endif %}
 				</ul>
 			</div>
 		</div>

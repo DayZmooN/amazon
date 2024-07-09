@@ -43,7 +43,7 @@ class AppFixtures extends Fixture
             $merchant->setEmail("merchant{$i}@example.com");
             $merchant->setAddress("123 Merchant Street {$i}");
             $merchant->setCreatedAt(new \DateTimeImmutable());
-            $merchant->setUserMerchant($users[$i - 1]); // Assign a user to each merchant
+            // $merchant->setUserMerchant($users[$i - 1]); // Assign a user to each merchant
             $manager->persist($merchant);
             $merchants[] = $merchant;
         }
