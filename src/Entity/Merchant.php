@@ -32,14 +32,14 @@ class Merchant
 
 
     /**
-     * @var Collection<int, article>
+     * @var Collection<int, Article>
      */
-    #[ORM\OneToMany(targetEntity: article::class, mappedBy: 'merchant', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'merchant', orphanRemoval: true)]
     private Collection $article_merchant;
 
     #[ORM\OneToOne(inversedBy: 'merchant', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?user $user_merchant = null;
+    private ?User $user_merchant = null;
 
     public function __construct()
     {
@@ -102,19 +102,19 @@ class Merchant
 
 
     /**
-     * @return Collection<int, article>
+     * @return Collection<int, Article>
      */
     public function getArticleMerchant(): Collection
     {
         return $this->article_merchant;
     }
 
-    public function getUserMerchant(): ?user
+    public function getUserMerchant(): ?User
     {
         return $this->user_merchant;
     }
 
-    public function setUserMerchant(user $user_merchant): static
+    public function setUserMerchant(User $user_merchant): static
     {
         $this->user_merchant = $user_merchant;
 

@@ -24,7 +24,7 @@ class Invoice
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?order $order_invoice = null;
+    private ?Order $order_invoice = null;
 
     public function getId(): ?int
     {
@@ -55,12 +55,12 @@ class Invoice
         return $this;
     }
 
-    public function getOrderInvoice(): ?order
+    public function getOrderInvoice(): ?Order
     {
         return $this->order_invoice;
     }
 
-    public function setOrderInvoice(order $order_invoice): static
+    public function setOrderInvoice(Order $order_invoice): static
     {
         $this->order_invoice = $order_invoice;
 

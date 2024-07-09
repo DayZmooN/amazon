@@ -1,35 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Category index{% endblock %}
+{% block title %}Category index
+{% endblock %}
 
-{% block body %}
-    <h1>Category index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for category in categories %}
-            <tr>
-                <td>{{ category.id }}</td>
-                <td>{{ category.name }}</td>
-                <td>
-                    <a href="{{ path('app_category_show', {'id': category.id}) }}">show</a>
-                    <a href="{{ path('app_category_edit', {'id': category.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_category_new') }}">Create new</a>
+{% block content %}
+	<div class="container mt-4">
+		<h1 class="mb-4">Category index</h1>
+		<a href="{{ path('app_category_new') }}" class="btn btn-success mb-3">Create new</a>
+		<div class="row">
+			{% for category in categories %}
+				<div class="col-md-4 mb-4">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">{{ category.name }}</h5>
+							<input type="hidden" class="card-text" value="{{ category.id }}"/>
+							<div class="btn-group" role="group">
+								<a href="{{ path('app_category_show', {'id': category.id}) }}" class="btn btn-sm btn-primary">Show</a>
+								<a href="{{ path('app_category_edit', {'id': category.id}) }}" class="btn btn-sm btn-secondary">Edit</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% else %}
+				<div class="col-12">
+					<div class="alert alert-info" role="alert">
+						No categories found.
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
 {% endblock %}

@@ -29,13 +29,14 @@
 			</form>
 		</div>
 	</div>
+	<a href="{{ path('app_article_new') }}" class="btn btn-success">Create new</a>
 	<div class="row">
 		{% for article in articles %}
-			<div class="col-md-4">
+			<div class="col-md-3">
 				<div
 					class="card mb-4">
 					{# <img src="{{ article.imgUrl }}" class="card-img-top" alt="{{ article.name }}"> #}
-					<img src="https://picsum.photos/id/1/200/300" class="card-img-top" alt="{{ article.name }}">
+					<img src="https://picsum.photos/00" class="card-img-top" alt="{{ article.name }}">
 					<div class="card-body">
 						<h5 class="card-title">{{ article.name }}</h5>
 						<p class="card-text">{{ article.description }}</p>
@@ -68,6 +69,4 @@
 			</div>
 		{% endfor %}
 	</div>
-
-	<a href="{{ path('app_article_new') }}" class="btn btn-success">Create new</a>
 {% endblock %}

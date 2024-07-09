@@ -39,9 +39,9 @@ class Article
     private ?string $description = null;
 
     /**
-     * @var Collection<int, order>
+     * @var Collection<int, Order>
      */
-    #[ORM\ManyToMany(targetEntity: order::class, inversedBy: 'articles')]
+    #[ORM\ManyToMany(targetEntity: Order::class, inversedBy: 'articles')]
     private Collection $order_article;
 
     #[ORM\ManyToOne(inversedBy: 'article_merchant')]
@@ -49,7 +49,7 @@ class Article
     private ?Merchant $merchant = null;
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
-    private ?category $category_article = null;
+    private ?Category $category_article = null;
 
     public function __construct()
     {
@@ -137,14 +137,14 @@ class Article
     }
 
     /**
-     * @return Collection<int, order>
+     * @return Collection<int, Order>
      */
     public function getOrderArticle(): Collection
     {
         return $this->order_article;
     }
 
-    public function addOrderArticle(order $orderArticle): static
+    public function addOrderArticle(Order $orderArticle): static
     {
         if (!$this->order_article->contains($orderArticle)) {
             $this->order_article->add($orderArticle);
@@ -153,7 +153,7 @@ class Article
         return $this;
     }
 
-    public function removeOrderArticle(order $orderArticle): static
+    public function removeOrderArticle(Order $orderArticle): static
     {
         $this->order_article->removeElement($orderArticle);
 
@@ -172,12 +172,12 @@ class Article
         return $this;
     }
 
-    public function getCategoryArticle(): ?category
+    public function getCategoryArticle(): ?Category
     {
         return $this->category_article;
     }
 
-    public function setCategoryArticle(?category $category_article): static
+    public function setCategoryArticle(?Category $category_article): static
     {
         $this->category_article = $category_article;
 
