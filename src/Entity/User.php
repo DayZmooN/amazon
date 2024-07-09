@@ -33,6 +33,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?merchant $merchant = null;
+
     /**
      * @var Collection<int, Order>
      */
@@ -117,6 +120,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getMerchant(): ?merchant
+    {
+        return $this->merchant;
+    }
+
+    public function setMerchant(?merchant $merchant): static
+    {
+        $this->merchant = $merchant;
+
+        return $this;
     }
 
     /**
