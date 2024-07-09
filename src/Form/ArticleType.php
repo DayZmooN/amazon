@@ -8,6 +8,7 @@ use App\Entity\Merchant;
 use App\Entity\order;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -20,15 +21,16 @@ class ArticleType extends AbstractType
             ->add('price')
             ->add('stock')
             ->add('imgUrl')
-            ->add('createdAt', null, [
+            ->add('createdAt', DateTimeType::class, [
                 'widget' => 'single_text',
+                'data' => new \DateTimeImmutable(),
             ])
             ->add('description')
-            ->add('order_article', EntityType::class, [
-                'class' => Order::class,
-                'choice_label' => 'id',
-                'multiple' => true,
-            ])
+            // ->add('order_article', EntityType::class, [
+            //     'class' => Order::class,
+            //     'choice_label' => 'id',
+            //     'multiple' => true,
+            // ])
             ->add('merchant', EntityType::class, [
                 'class' => Merchant::class,
                 'choice_label' => 'name',

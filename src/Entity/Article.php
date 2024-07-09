@@ -33,8 +33,6 @@ class Article
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
 
-
-
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
@@ -170,6 +168,12 @@ class Article
         $this->merchant = $merchant;
 
         return $this;
+    }
+
+    public function isMerchant(User $user): bool
+    {
+        $merchant = $user->getMerchant();
+        return $this->merchant === $merchant;
     }
 
     public function getCategoryArticle(): ?Category
