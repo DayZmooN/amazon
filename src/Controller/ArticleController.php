@@ -27,7 +27,7 @@ class ArticleController extends AbstractController
     public function index(Request $request, ArticleRepository $articleRepository, CategoryRepository $categoryRepository): Response
     {
         $search = $request->query->get('search');
-        $category = $request->query->getInt('category');
+        $category = $request->query->get('category');
 
         $queryBuilder = $articleRepository->createQueryBuilder('a');
 
@@ -36,9 +36,9 @@ class ArticleController extends AbstractController
                 ->setParameter('search', '%' . $search . '%');
         }
 
-        if ($category) {
+        if ($category && is_numeric($category)) {
             $queryBuilder->andWhere('a.category_article = :category')
-                ->setParameter('category', $category);
+                ->setParameter('category', (int)$category);
         }
 
         $articles = $queryBuilder->getQuery()->getResult();
@@ -49,6 +49,7 @@ class ArticleController extends AbstractController
             'categories' => $categories,
         ]);
     }
+
 
     #[Route('/new', name: 'app_article_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
