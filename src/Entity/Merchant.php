@@ -37,9 +37,7 @@ class Merchant
     #[ORM\OneToMany(targetEntity: article::class, mappedBy: 'merchant', orphanRemoval: true)]
     private Collection $article_merchant;
 
-    #[ORM\OneToOne(inversedBy: 'merchant', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?user $user_merchant = null;
+
 
     public function __construct()
     {
@@ -107,17 +105,5 @@ class Merchant
     public function getArticleMerchant(): Collection
     {
         return $this->article_merchant;
-    }
-
-    public function getUserMerchant(): ?user
-    {
-        return $this->user_merchant;
-    }
-
-    public function setUserMerchant(user $user_merchant): static
-    {
-        $this->user_merchant = $user_merchant;
-
-        return $this;
     }
 }
