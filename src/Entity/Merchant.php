@@ -29,14 +29,14 @@ class Merchant
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-
-
     /**
      * @var Collection<int, Article>
      */
     #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'merchant', orphanRemoval: true)]
     private Collection $article_merchant;
 
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'merchants')]
+    private ?User $user_merchant = null;
 
     public function __construct()
     {
@@ -96,13 +96,23 @@ class Merchant
         return $this;
     }
 
-
-
     /**
      * @return Collection<int, Article>
      */
     public function getArticleMerchant(): Collection
     {
         return $this->article_merchant;
+    }
+
+    public function getUserMerchant(): ?User
+    {
+        return $this->user_merchant;
+    }
+
+    public function setUserMerchant(?User $user_merchant): static
+    {
+        $this->user_merchant = $user_merchant;
+
+        return $this;
     }
 }
