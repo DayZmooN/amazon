@@ -1,19 +1,34 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Register
+{% endblock %}
 
-{% block body %}
-    <h1>Register</h1>
+{% block content %}
+	<div class="container mt-5">
+		<h1 class="mb-4">Register</h1>
 
-    {{ form_errors(registrationForm) }}
+		{{ form_start(registrationForm, {'attr': {'class': 'form-horizontal'}}) }}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+		<div class="mb-3">
+			{{ form_label(registrationForm.email, null, {'label_attr': {'class': 'form-label'}}) }}
+			{{ form_widget(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
+			{{ form_errors(registrationForm.email, {'attr': {'class': 'text-danger'}}) }}
+		</div>
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+		<div class="mb-3">
+			{{ form_label(registrationForm.plainPassword, 'Password', {'label_attr': {'class': 'form-label'}}) }}
+			{{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
+			{{ form_errors(registrationForm.plainPassword, {'attr': {'class': 'text-danger'}}) }}
+		</div>
+
+		<div class="mb-3 form-check">
+			{{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
+			{{ form_label(registrationForm.agreeTerms, null, {'label_attr': {'class': 'form-check-label'}}) }}
+			{{ form_errors(registrationForm.agreeTerms, {'attr': {'class': 'text-danger'}}) }}
+		</div>
+
+		<button type="submit" class="btn btn-primary">Register</button>
+
+		{{ form_end(registrationForm) }}
+	</div>
 {% endblock %}

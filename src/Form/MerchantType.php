@@ -3,11 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Merchant;
-use App\Entity\user;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 class MerchantType extends AbstractType
 {
@@ -17,13 +16,12 @@ class MerchantType extends AbstractType
             ->add('name')
             ->add('email')
             ->add('address')
-            ->add('createdAt', null, [
+            ->add('createdAt', DateTimeType::class, [
                 'widget' => 'single_text',
-            ])
-            ->add('user_merchant', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
+                'data' => new \DateTimeImmutable(),
             ]);
+
+        // Nous ne ajoutons plus le champ user_merchant ici
     }
 
     public function configureOptions(OptionsResolver $resolver): void
